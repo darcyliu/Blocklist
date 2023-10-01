@@ -58,7 +58,7 @@ struct HUDView<Content: View>: View {
             .padding(15)
             .background(
                 Capsule()
-                    .foregroundColor(Color.white)
+                    .foregroundColor(Color(UIColor.systemBackground))
                     .shadow(color: Color(.black).opacity(0.25), radius: 10, x: 0, y: 5)
             )
             //.background(.ultraThinMaterial, in: Capsule())

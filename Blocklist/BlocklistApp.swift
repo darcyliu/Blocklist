@@ -29,11 +29,25 @@ struct BlocklistApp: App {
         }.onChange(of: scenePhase) { (newScenePhase) in
             switch newScenePhase {
             case .active:
+                // clean the temporary files
+                if let documentsPathURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                    let enumerator = FileManager.default.enumerator(at: documentsPathURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+                    while let file = enumerator?.nextObject() {
+                        do{
+                            try FileManager.default.removeItem(at: file as! URL)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+                
                 break
             case .inactive:
                 break
             case .background:
                 PhoneBookManager.sharedInstance().saveContext()
+                PhoneBookManager.sharedInstance().exportAllCallers()
+                PhoneBookManager.sharedInstance().removeAllDeletedRecords()
                 
                 CXCallDirectoryManager.sharedInstance.reloadExtension(withIdentifier: "net.macspot.lma.caller", completionHandler: { (error) in
                     if let error = error as? CXErrorCodeCallDirectoryManagerError {
@@ -66,7 +80,6 @@ struct BlocklistApp: App {
                         NotificationScheduler.scheduleNotification(title: "Call Directory Reload Error", body: "\(message)(\(error.localizedDescription))" , delay: 1)
                     } else {
                         print("Reload succeed.")
-                        PhoneBookManager.sharedInstance().removeAllDeletedRecords()
                         //NotificationScheduler.scheduleNotification(title: "Call Directory Reload succeed", body: "Done", delay: 1)
                     }
                 })

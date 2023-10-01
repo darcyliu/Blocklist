@@ -9,6 +9,10 @@
 #import "PBRule+CoreDataProperties.h"
 #import "PBRecord+CoreDataProperties.h"
 
+#ifndef DEBUG
+#define NSLog(...)
+#endif
+
 @interface PhoneBookManager()
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
 @end
@@ -177,7 +181,8 @@
     
     NSArray *results = [context executeFetchRequest:request error:&error];
     
-    for (NSManagedObject *record in results) {
+    for (PBRecord *record in results) {
+        NSLog(@"delete: %lld", record.number);
         [context deleteObject:record];
     }
     [context save:&error];
@@ -226,6 +231,29 @@
     return results;
 }
 
+- (void)exportAllCallers {
+    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.net.macspot.lma"];
+    NSURL *url = [containerURL URLByAppendingPathComponent:@"callers.txt"];
+
+    NSMutableArray *contents = [[NSMutableArray alloc] init];
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    [results addObjectsFromArray: [self getRecordsFor:YES includeRemoved:YES afterDate:nil]];
+    [results addObjectsFromArray: [self getRecordsFor:NO includeRemoved:YES afterDate:nil]];
+
+    for(PBRecord *r in results) {
+        //NSLog(@"name: %@ %lld blocked:%d removed:%d %@ %@", r.name, r.number, r.blocked, r.removed,r.created, r.updated);
+        [contents addObject:[NSString stringWithFormat:@"%d,%lld,%@,%d", r.blocked, r.number, r.name, r.removed]];
+    }
+
+    NSError *error;
+    NSString *content = [contents componentsJoinedByString:@"\n"];
+    [content writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    if (error) {
+        NSLog(@"Error writing file at %@\n%@", url, [error localizedFailureReason]);
+    }
+}
+
 - (NSURL *)exportCallers {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths firstObject];
@@ -234,11 +262,11 @@
     NSString *fileName = [NSString stringWithFormat:@"%@/LMA-caller-%@.blc", documentsDirectory, [dateFormatter stringFromDate:[NSDate date]]];
     NSMutableArray *contents = [[NSMutableArray alloc] init];
     NSMutableArray *results = [[NSMutableArray alloc] init];
-    [results addObjectsFromArray: [[PhoneBookManager sharedInstance] getRecordsFor:YES includeRemoved:NO afterDate:nil]];
-    [results addObjectsFromArray: [[PhoneBookManager sharedInstance] getRecordsFor:NO includeRemoved:NO afterDate:nil]];
+    [results addObjectsFromArray: [self getRecordsFor:YES includeRemoved:NO afterDate:nil]];
+    [results addObjectsFromArray: [self getRecordsFor:NO includeRemoved:NO afterDate:nil]];
     
     for(PBRecord *r in results) {
-        NSLog(@"name: %@ %lld blocked:%d removed:%d %@ %@", r.name, r.number, r.blocked, r.removed,r.created, r.updated);
+        //NSLog(@"name: %@ %lld blocked:%d removed:%d %@ %@", r.name, r.number, r.blocked, r.removed,r.created, r.updated);
         [contents addObject:[NSString stringWithFormat:@"%d,%lld,%@", r.blocked, r.number, r.name]];
     }
     
@@ -266,7 +294,7 @@
     
     NSArray<PBRule *> *rules = [self getRules];
     for(PBRule *rule in rules) {
-        NSLog(@"%d,%@,%d,%d", rule.type, rule.pattern, rule.action, rule.subaction);
+        //NSLog(@"%d,%@,%d,%d", rule.type, rule.pattern, rule.action, rule.subaction);
         [contents addObject:[NSString stringWithFormat:@"%d,%@,%d,%d", rule.type, rule.pattern, rule.action, rule.subaction]];
     }
     

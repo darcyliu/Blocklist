@@ -35,6 +35,7 @@
 		C75ABD7528DF978400BB3E4B /* MessageFilterExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C75ABD7428DF978400BB3E4B /* MessageFilterExtension.m */; };
 		C75E3A02292B4EF90038DA3C /* PBRule+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = C75E39FE292B4EF90038DA3C /* PBRule+CoreDataProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C75E3A04292B4EF90038DA3C /* PBRule+CoreDataClass.h in Headers */ = {isa = PBXBuildFile; fileRef = C75E3A00292B4EF90038DA3C /* PBRule+CoreDataClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C76E82042AC919D1009BCEF7 /* PriorityQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C76E82022AC919D1009BCEF7 /* PriorityQueue.m */; };
 		C78EE9582ABFE9F000C4E6C2 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78EE9572ABFE9F000C4E6C2 /* NotificationScheduler.swift */; };
 		C797EABD28F3872A001AFF47 /* PhoneBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F107F028E0301300C5033B /* PhoneBook.framework */; };
 		C7F107F428E0301300C5033B /* PhoneBook.docc in Sources */ = {isa = PBXBuildFile; fileRef = C7F107F328E0301300C5033B /* PhoneBook.docc */; };
@@ -141,6 +142,8 @@
 		C75E39FF292B4EF90038DA3C /* PBRule+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PBRule+CoreDataProperties.m"; sourceTree = "<group>"; };
 		C75E3A00292B4EF90038DA3C /* PBRule+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PBRule+CoreDataClass.h"; sourceTree = "<group>"; };
 		C75E3A01292B4EF90038DA3C /* PBRule+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PBRule+CoreDataClass.m"; sourceTree = "<group>"; };
+		C76E82022AC919D1009BCEF7 /* PriorityQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriorityQueue.m; sourceTree = "<group>"; };
+		C76E82032AC919D1009BCEF7 /* PriorityQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriorityQueue.h; sourceTree = "<group>"; };
 		C78EE9572ABFE9F000C4E6C2 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		C78EE9592AC127CB00C4E6C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C797EABE28F387BA001AFF47 /* MessageFilter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageFilter.entitlements; sourceTree = "<group>"; };
@@ -299,6 +302,8 @@
 		C7335FFF28DEDA1600EB6705 /* CallDirectory */ = {
 			isa = PBXGroup;
 			children = (
+				C76E82032AC919D1009BCEF7 /* PriorityQueue.h */,
+				C76E82022AC919D1009BCEF7 /* PriorityQueue.m */,
 				C7F1081328E035C000C5033B /* CallDirectory.entitlements */,
 				C733600028DEDA1600EB6705 /* CallDirectoryHandler.h */,
 				C733600128DEDA1600EB6705 /* CallDirectoryHandler.m */,
@@ -657,6 +662,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C733600228DEDA1600EB6705 /* CallDirectoryHandler.m in Sources */,
+				C76E82042AC919D1009BCEF7 /* PriorityQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

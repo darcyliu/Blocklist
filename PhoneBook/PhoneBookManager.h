@@ -26,8 +26,8 @@ typedef NS_ENUM(NSUInteger, PBRuleAction) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PhoneBookManager : NSObject
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)new NS_UNAVAILABLE;
+//- (instancetype)init NS_UNAVAILABLE;
+//- (instancetype)new NS_UNAVAILABLE;
 
 + (instancetype)sharedInstance;
 
@@ -46,9 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)getRulesForPattern:(NSString *)pattern type:(NSInteger)type action:(NSInteger)action subaction:(NSInteger)subaction;
 - (NSArray *)getRulesForPattern:(NSString *)pattern;
 
+- (void)exportAllCallers;
 - (NSURL *_Nullable)exportCallers;
 - (NSURL *_Nullable)exportRules;
-
+- (void)addOrUpdateCallNumber:(NSNumber *)phoneNumber withName:(NSString *)name andBlocked:(BOOL)blocked;
 - (void)importFile:(NSURL *)url;
 @end
 
